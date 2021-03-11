@@ -1,6 +1,8 @@
+import Theme from "../enums/Theme";
+
 interface IAppConfig {
+    theme: Theme
     symbols: string[];
-    interval: number;
 }
 
-export default IAppConfig
+export default IAppConfig;

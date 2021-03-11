@@ -1,22 +1,22 @@
-import { App } from "vue";
-import AppConfig from "./AppConfig";
-import IAppConfig from "./interfaces/IAppConfig";
-import IDesmond from "./interfaces/IDesmond";
+import { App } from 'vue';
+import AppConfig from './AppConfig';
+import IAppConfig from './interfaces/IAppConfig';
+import IDesmond from './interfaces/IDesmond';
 
 class Desmond implements IDesmond {
     public install(app: App) {
-        this.initializeConfig()
+        this.initializeConfig();
 
-        app.config.globalProperties.$appConfig = this.initializeConfig()
+        app.config.globalProperties.$appConfig = this.initializeConfig();
     }
 
     public initializeConfig(): AppConfig {
-        const config: IAppConfig = AppConfig.load() ?? new AppConfig()
+        const config: IAppConfig = AppConfig.load() ?? new AppConfig();
 
-        AppConfig.save(config)
+        AppConfig.save(config);
 
-        return config
+        return config;
     }
 }
 
-export default Desmond
+export default Desmond;

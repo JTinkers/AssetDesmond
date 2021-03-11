@@ -1,23 +1,24 @@
-import IAppConfig from "./interfaces/IAppConfig";
+import Theme from './enums/Theme';
+import IAppConfig from './interfaces/IAppConfig';
 
 class AppConfig implements IAppConfig {
-    public static storageKey = "desmond:app-config"
+    public theme = Theme.Light;
+    public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN']; 
 
-    public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN'];
-    public interval = 1000;
+    public static storageKey = 'desmond:app-config';
 
     public static save(config: AppConfig): void {
-        localStorage.setItem(AppConfig.storageKey, JSON.stringify(config))
+        localStorage.setItem(AppConfig.storageKey, JSON.stringify(config));
     }
 
     public static load(): AppConfig | null {
-        const obj = localStorage.getItem(AppConfig.storageKey)
+        const obj = localStorage.getItem(AppConfig.storageKey);
 
         if(obj)
-            return JSON.parse(obj)
+            return JSON.parse(obj);
 
-        return null
+        return null;
     }
 }
 
-export default AppConfig
+export default AppConfig;

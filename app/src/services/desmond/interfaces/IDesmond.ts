@@ -1,9 +1,9 @@
-import { App } from "vue";
-import IAppConfig from "./IAppConfig";
+import { App } from 'vue';
+import IAppConfig from './IAppConfig';
 
 interface IDesmond {
     install(app: App): void;
     initializeConfig(): IAppConfig;
 }
 
-export default IDesmond
+export default IDesmond;

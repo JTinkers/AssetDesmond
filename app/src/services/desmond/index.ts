@@ -1,3 +1,3 @@
-import Desmond from "./Desmond";
+import Desmond from './Desmond';
 
-export default new Desmond()
+export default new Desmond();
