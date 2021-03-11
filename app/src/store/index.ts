@@ -1,5 +1,10 @@
 import { Store, createStore } from 'vuex'
 
-const store: Store<any> = createStore({})
+declare interface RootState 
+{
+    _: undefined;
+}
+
+const store: Store<RootState> = createStore({})
 
 export default store
