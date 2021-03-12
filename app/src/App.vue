@@ -1,17 +1,24 @@
 <template>
-  <router-view/>
+  <div id='container'>
+    <router-view/>
+  </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { defineComponent } from 'vue';
 
-  const component = defineComponent({
-    name: 'App'
-  });
+  const App = defineComponent({});
 
-  export default component;
+  export default App;
 </script>
 
-<style lang="scss">
+<style lang='scss'>
+  @import '@/assets/scss/defaults.scss';
+</style>
 
+<style lang='scss' scoped>
+  #container {
+    display: flex;
+    min-height: 100vh;
+  }
 </style>

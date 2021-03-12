@@ -47,6 +47,9 @@
       "ecmaVersion": 2020
     },
     "rules": {
+      "@typescript-eslint/no-explicit-any": [
+        "off"
+      ],
       "brace-style": [
         "warn",
         "stroustrup"

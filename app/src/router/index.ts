@@ -1,6 +1,13 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
-const routes: Array<RouteRecordRaw> = [];
+import StockGridView from '@/views/StockGridView.vue';
+
+const routes: Array<RouteRecordRaw> = [
+  { 
+    path: '/grid',
+    component: StockGridView
+  }
+];
 
 const router = createRouter({
   history: createWebHashHistory(),

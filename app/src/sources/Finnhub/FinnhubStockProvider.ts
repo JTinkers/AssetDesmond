@@ -22,20 +22,18 @@ class FinnhubStockProvider implements IStockProvider {
             this.stocks.push(stock);
         });
 
-        const result: any = (await axios.get('https://finnhub.io/api/v1/stock/symbol?exchange=US&token=' + this.config.apiKey)).data
+        const result: any[] = (await axios.get('https://finnhub.io/api/v1/stock/symbol?exchange=US&token=' + this.config.apiKey)).data;
         
-        this.stocks.forEach(stock =>
-        {
-            const info = result.find((x: any) => x.symbol == stock.symbol)
+        this.stocks.forEach(stock => {
+            const info = result.find((x: any) => x.symbol == stock.symbol);
 
             if(info)
-                stock.name = info.description
-        })
+                stock.name = info.description;
+        });
     }
 
     public fetch(symbols: string[]): Stock[] {
-        if(!this.isSocketOpen)
-        {
+        if(!this.isSocketOpen) {
             this.fetchInfo(symbols);
             this.setupListener(symbols);
         }
@@ -70,8 +68,8 @@ class FinnhubStockProvider implements IStockProvider {
                 if(!stock)
                     return;
 
-                stock.price = trade.p
-            })
+                stock.price = trade.p;
+            });
         };
 
         this.isSocketOpen = true;
