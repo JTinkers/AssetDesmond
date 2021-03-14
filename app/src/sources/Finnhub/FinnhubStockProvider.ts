@@ -1,8 +1,8 @@
 import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
+import IStock from '@/services/stocks/interfaces/IStock';
 import Stock from '@/services/stocks/Stock';
 import FinnhubStockProviderConfig from './FinnhubStockProviderConfig';
 import axios from 'axios';
-import { reactive } from 'vue';
 
 class FinnhubStockProvider implements IStockProvider {
     public config: FinnhubStockProviderConfig;
@@ -12,7 +12,7 @@ class FinnhubStockProvider implements IStockProvider {
 
     constructor(config: FinnhubStockProviderConfig) {
         this.config = config;
-        this.stocks = reactive([]);
+        this.stocks = [];
     }
 
     public async fetchInfo(symbols: string[]) {
@@ -20,6 +20,7 @@ class FinnhubStockProvider implements IStockProvider {
         symbols.forEach(symbol => {
             const stock: Stock = new Stock();
             stock.symbol = symbol;
+            stock.prices = Array<number>();
 
             this.stocks.push(stock);
         });
@@ -46,9 +47,9 @@ class FinnhubStockProvider implements IStockProvider {
         });
     }
 
-    public fetch(symbols: string[]): Stock[] {
+    public async fetch(symbols: string[]): Promise<IStock[]> {
         if(!this.isSocketOpen) {
-            this.fetchInfo(symbols);
+            await this.fetchInfo(symbols);
             this.setupListener(symbols);
         }
 
@@ -58,7 +59,8 @@ class FinnhubStockProvider implements IStockProvider {
             const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
     
             stock.price += stock.price * change;
-        }, 1000);
+            stock.prices.push(stock.price);
+        }, 250);
 
         return this.stocks;
     }
@@ -91,6 +93,7 @@ class FinnhubStockProvider implements IStockProvider {
                     return;
 
                 stock.price = trade.p;
+                stock.prices.push(stock.price);
             });
         };
 

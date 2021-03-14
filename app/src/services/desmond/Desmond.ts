@@ -4,14 +4,17 @@ import IAppConfig from './interfaces/IAppConfig';
 import IDesmond from './interfaces/IDesmond';
 
 class Desmond implements IDesmond {
-    public install(app: App) {
-        this.initializeConfig();
+    public config?: IAppConfig;
 
-        app.config.globalProperties.$appConfig = this.initializeConfig();
+    public install(app: App) {
+        this.config = this.initializeConfig();
+        
+        app.config.globalProperties.$desmond = this;
     }
 
     public initializeConfig(): AppConfig {
-        const config: IAppConfig = AppConfig.load() ?? new AppConfig();
+        let config: IAppConfig = AppConfig.load() ?? new AppConfig();
+        config = Object.assign(new AppConfig(), config);
 
         AppConfig.save(config);
 

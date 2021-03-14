@@ -5,6 +5,7 @@ class Stock implements IStock {
     public symbol = '';
     public price = 0;
     public openPrice = 0;
+    public prices = Array<number>();
 }
 
 export default Stock;

@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
-import StockGridView from '@/views/StockGridView.vue';
+import index from '@/views/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { 
-    path: '/grid',
-    component: StockGridView
+    path: '/',
+    component: index
   }
 ];
 

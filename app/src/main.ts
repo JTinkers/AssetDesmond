@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { reactive, createApp } from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './App.vue';
@@ -16,7 +16,7 @@ const stockProviderConfig = new FinnhubStockProviderConfig({
     apiKey: 'c16jign48v6ppg7et00g'
 });
 
-const stockProvider = new FinnhubStockProvider(stockProviderConfig);
+const stockProvider = reactive(new FinnhubStockProvider(stockProviderConfig));
 // #endregion
 
 const app = createApp(App);
@@ -31,10 +31,12 @@ const instance = app
     .mount('#app');
 
 // #region PrimeVue components
+import Card from 'primevue/card';
 import Checkbox from 'primevue/checkbox';
 
+app.component('Card', Card);
 app.component('Checkbox', Checkbox);
 // #endregion
 
 // run stock fetching
-instance.$stockProvider.fetch(instance.$appConfig.symbols);
+instance.$stockProvider.fetch(instance.$desmond.config.symbols);

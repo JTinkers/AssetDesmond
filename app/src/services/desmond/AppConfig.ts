@@ -1,9 +1,10 @@
+import { reactive } from '@vue/reactivity';
 import Theme from './enums/Theme';
 import IAppConfig from './interfaces/IAppConfig';
 
 class AppConfig implements IAppConfig {
     public theme = Theme.Light;
-    public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN']; 
+    public symbols = reactive(['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN']);
 
     public static storageKey = 'desmond:app-config';
 
@@ -18,6 +19,28 @@ class AppConfig implements IAppConfig {
             return JSON.parse(obj);
 
         return null;
+    }
+
+    public addSymbol(symbol: string): void {
+        const symbols = this.symbols;
+        const stored = symbols?.find(x => x == symbol);
+
+        if(!stored) {
+            symbols?.push(symbol);
+
+            AppConfig.save(this);
+        }
+    }
+
+    public removeSymbol(symbol: string): void {
+        const symbols = this.symbols;
+        const index = symbols?.indexOf(symbol);
+
+        if(index) {
+            symbols?.splice(index, 1);
+
+            AppConfig.save(this);
+        }
     }
 }
 

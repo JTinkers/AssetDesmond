@@ -17,6 +17,7 @@
     "vue-axios": "^3.2.4",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
+    "vue3-chart-v2": "^0.8.1",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
@@ -58,6 +59,9 @@
       ],
       "@typescript-eslint/no-explicit-any": [
         "off"
+      ],
+      "vue/no-unused-components": [
+        "warn"
       ],
       "brace-style": [
         "warn",
