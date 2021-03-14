@@ -2,6 +2,7 @@ import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
 import Stock from '@/services/stocks/Stock';
 import FinnhubStockProviderConfig from './FinnhubStockProviderConfig';
 import axios from 'axios';
+import { reactive } from 'vue';
 
 class FinnhubStockProvider implements IStockProvider {
     public config: FinnhubStockProviderConfig;
@@ -11,10 +12,11 @@ class FinnhubStockProvider implements IStockProvider {
 
     constructor(config: FinnhubStockProviderConfig) {
         this.config = config;
-        this.stocks = [];
+        this.stocks = reactive([]);
     }
 
     public async fetchInfo(symbols: string[]) {
+        // build list of stocks
         symbols.forEach(symbol => {
             const stock: Stock = new Stock();
             stock.symbol = symbol;
@@ -22,13 +24,25 @@ class FinnhubStockProvider implements IStockProvider {
             this.stocks.push(stock);
         });
 
-        const result: any[] = (await axios.get('https://finnhub.io/api/v1/stock/symbol?exchange=US&token=' + this.config.apiKey)).data;
+        // fetch all US stocks
+        const result: any[] = (await axios.get(`https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${this.config.apiKey}`)).data;
         
+        // assign data regarding stocks
         this.stocks.forEach(stock => {
             const info = result.find((x: any) => x.symbol == stock.symbol);
 
             if(info)
                 stock.name = info.description;
+        });
+
+        // fetch stock quote for each stock
+        this.stocks.forEach(async stock => {
+            const info = (await axios.get(`https://finnhub.io/api/v1/quote?symbol=${stock.symbol}&token=${this.config.apiKey}`)).data;
+
+            if(info) {
+                stock.price = info.c;
+                stock.openPrice = info.o;
+            }
         });
     }
 
@@ -37,6 +51,14 @@ class FinnhubStockProvider implements IStockProvider {
             this.fetchInfo(symbols);
             this.setupListener(symbols);
         }
+
+        // temporary randomizer
+        setInterval(() => {
+            const change = ((Math.random() * 4) - 2) * 0.01;
+            const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
+    
+            stock.price += stock.price * change;
+        }, 1000);
 
         return this.stocks;
     }

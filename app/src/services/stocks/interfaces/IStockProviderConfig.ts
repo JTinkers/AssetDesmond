@@ -1,3 +1,3 @@
 interface IStockProviderConfig {}
 
-export default IStockProviderConfig
+export default IStockProviderConfig;

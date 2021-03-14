@@ -5,7 +5,7 @@ interface IStockProvider {
     config: IStockProviderConfig;
     stocks: IStock[];
 
-    fetch(symbols: string[]) : IStock[];
+    fetch(symbols: string[]): IStock[];
 }
 
 export default IStockProvider;
