@@ -13,7 +13,7 @@
         </template>
         <template #footer>
             <div class='info'>
-                <span class='price' v-text='"$" + price.toFixed(2)'/>
+                <span class='price' v-text='"$" + price.toFixed(2)' v-tooltip='priceTooltip'/>
                 <div class='change' :class='className'>
                     <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
                     <span v-text='Math.abs(change).toFixed(2) + ` (${((Math.abs(changePerc) || 0).toFixed(2))}%)`'/>
@@ -24,38 +24,47 @@
 </template>
 
 <script lang='ts'>
-    import { defineComponent } from 'vue';
-    import IStock from '@/services/stocks/interfaces/IStock';
-    import StockChart from '@/components/StockChart.vue';
+import { defineComponent } from 'vue';
+import IStock from '@/services/stocks/interfaces/IStock';
+import StockChart from '@/components/StockChart.vue';
 
-    const component = defineComponent({
-        components: {
-            StockChart
-        },
-        setup(props) {
-            return props.stock;
-        },
-        props: {
-            stock: {
-                type: Object as () => IStock
-            }
-        },
-        watch: {
-            stock: {
-                handler() {
-                    const stock = this.stock as any;
-                    stock.className = stock.price > stock.openPrice ? 'positive' : 'negative';
-    
-                    stock.change = stock.price - stock.openPrice;
-                    stock.changePerc = (stock.change / stock.openPrice) * 100;
-                },
-                deep: true,
-                immediate: true
-            }
+const component = defineComponent({
+    components: {
+        StockChart
+    },
+    setup(props) {
+        return props.stock;
+    },
+    props: {
+        stock: {
+            type: Object as () => IStock
         }
-    });
+    },
+    computed: {
+        priceTooltip(): string {
+            return `Open: $${this.stock?.open}
+                Previous Close: $${this.stock?.close}
 
-    export default component;
+                Lowest: $${this.stock?.low}
+                Highest: $${this.stock?.high}`;
+        }
+    },
+    watch: {
+        stock: {
+            handler() {
+                const stock = this.stock as any;
+                stock.className = stock.price > stock.close ? 'positive' : 'negative';
+
+                stock.change = stock.price - stock.close;
+                stock.changePerc = (stock.change / stock.close) * 100;
+            },
+            deep: true,
+            immediate: true
+        }
+    }
+});
+
+export default component;
 </script>
 
 <style lang='scss'>

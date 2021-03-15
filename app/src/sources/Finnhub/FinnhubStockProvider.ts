@@ -1,12 +1,13 @@
 import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
 import IStock from '@/services/stocks/interfaces/IStock';
-import Stock from '@/services/stocks/Stock';
 import FinnhubStockProviderConfig from './FinnhubStockProviderConfig';
+import FinnhubStock from './FinnhubStock';
 import axios from 'axios';
+import '@/extensions/Array';
 
 class FinnhubStockProvider implements IStockProvider {
     public config: FinnhubStockProviderConfig;
-    public stocks: Stock[];
+    public stocks: FinnhubStock[];
     
     public isSocketOpen = false;
 
@@ -18,7 +19,7 @@ class FinnhubStockProvider implements IStockProvider {
     public async fetchInfo(symbols: string[]) {
         // build list of stocks
         symbols.forEach(symbol => {
-            const stock: Stock = new Stock();
+            const stock: FinnhubStock = new FinnhubStock();
             stock.symbol = symbol;
             stock.prices = Array<number>();
 
@@ -42,9 +43,10 @@ class FinnhubStockProvider implements IStockProvider {
 
             if(info) {
                 stock.price = info.c;
-                stock.openPrice = info.o;
-                
-                stock.prices.push(info.o);
+                stock.open = info.o;
+                stock.close = info.pc;
+                stock.low = info.l;
+                stock.high = info.h;
             }
         });
     }
@@ -89,16 +91,22 @@ class FinnhubStockProvider implements IStockProvider {
             if(result.type != 'trade')
                 return;
 
-            const trades: any[] = result.data;
+            const groups = result.data.groupBy('s');
 
-            trades.forEach(trade => {
-                const stock: Stock | undefined = this.stocks.find(x => x.symbol == trade.s);
+            this.stocks.forEach(stock => {
+                const trades: any[] = groups[stock.symbol];
 
-                if(!stock)
+                if(!trades)
                     return;
 
-                stock.price = trade.p;
-                stock.prices.push(stock.price);
+                const latest = trades.sort((a, b) => b.t - a.t)[0];
+
+                if(latest.t < stock.lastRefresh + (this.config.refreshRate || 0))
+                    return;
+
+                stock.price = latest.p;
+                stock.prices.push(latest.p);
+                stock.lastRefresh = latest.t;
             });
         };
 

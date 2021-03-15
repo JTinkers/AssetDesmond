@@ -1,10 +1,10 @@
-import { reactive } from '@vue/reactivity';
 import Theme from './enums/Theme';
 import IAppConfig from './interfaces/IAppConfig';
 
 class AppConfig implements IAppConfig {
     public theme = Theme.Light;
-    public symbols = reactive(['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN']);
+    public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN'];
+    public compact = false;
 
     public static storageKey = 'desmond:app-config';
 

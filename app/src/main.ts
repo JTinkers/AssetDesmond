@@ -14,7 +14,8 @@ import FinnhubStockProviderConfig from './sources/Finnhub/FinnhubStockProviderCo
 
 const stockProviderConfig = new FinnhubStockProviderConfig({
     apiKey: 'c16jign48v6ppg7et00g',
-    useRandomizer: false
+    useRandomizer: false,
+    refreshRate: 60 * 1000
 });
 
 const stockProvider = reactive(new FinnhubStockProvider(stockProviderConfig));
@@ -34,9 +35,11 @@ const instance = app
 // #region PrimeVue components
 import Card from 'primevue/card';
 import Checkbox from 'primevue/checkbox';
+import Tooltip from 'primevue/tooltip';
 
 app.component('Card', Card);
 app.component('Checkbox', Checkbox);
+app.directive('tooltip', Tooltip);
 // #endregion
 
 // run stock fetching

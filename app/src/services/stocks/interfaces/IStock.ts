@@ -3,7 +3,10 @@ interface IStock {
     symbol: string;
     price: number;
     prices: Array<number>;
-    openPrice: number;
+    open: number;
+    close: number;
+    low: number;
+    high: number;
 }
 
 export default IStock;

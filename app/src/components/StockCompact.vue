@@ -7,28 +7,41 @@
         <div class='info'>
             <span class='name' v-text='name'/>
             <div class='change' :class='className'>
-              <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
-              <span v-text='`${((Math.abs(changePerc) || 0).toFixed(2))}%`'/>
+                <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
+                <span v-text='`${((Math.abs(changePerc) || 0).toFixed(2))}%`'/>
             </div>
         </div>
     </div>
 </template>
 
 <script lang='ts'>
-    import { defineComponent } from 'vue';
-    import Stock from '@/components/Stock.vue';
+import { defineComponent } from 'vue';
+import Stock from '@/components/Stock.vue';
 
-    const component = defineComponent({
-      props: Stock.props,
-      watch: Stock.watch,
-      setup: Stock.setup
-    });
+const component = defineComponent({
+    props: Stock.props,
+    watch: Stock.watch,
+    setup: Stock.setup
+});
 
-    export default component;
+export default component;
 </script>
 
+<style lang='scss'>
+    @keyframes flash-positive {  
+        from { background: rgba(0, 105, 240, 0.25); }
+        to { background: default; }
+    }
+
+    @keyframes flash-negative {  
+        from { background: rgba(245, 0, 120, 0.25); }
+        to { background: default; }
+    } 
+</style>
+
+
 <style lang='scss' scoped>
-  .stock {
+.stock {
     display: flex;
     flex-direction: column;
     min-width: 300px;
@@ -36,56 +49,56 @@
     padding: 8px;
 
     &.positive {
-      animation: flash-positive 1s linear;
+        animation: flash-positive 1s linear;
     }
 
     &.negative {
-      animation: flash-negative 1s linear;
+        animation: flash-negative 1s linear;
     }
 
     .header {
-      display: flex;
+        display: flex;
 
-      .symbol, .price {
-        font-size: 32px;
-      }
+        .symbol, .price {
+            font-size: 32px;
+        }
 
-      .symbol {
-        font-weight: 600;
-        margin-left: -1px;
-      }
+        .symbol {
+            font-weight: 600;
+            margin-left: -1px;
+        }
 
-      .price {
-        margin-left: auto;
-      }
+        .price {
+            margin-left: auto;
+        }
     }
 
     .info {
-      display: flex;
-      padding-top: 4px;
+        display: flex;
+        padding-top: 4px;
 
-      .name {
-        font-size: 14px;
-      }
-
-      .change {
-        margin-left: auto;
-        font-weight: 600;
-
-        > .fas {
-          margin-right: 4px;
+        .name {
+            font-size: 14px;
         }
 
-        &.positive {
-          transition: all 1s;
-          color: rgb(0, 105, 240);
-        }
+        .change {
+            margin-left: auto;
+            font-weight: 600;
 
-        &.negative {
-          transition: all 1s;
-          color: rgb(245, 0, 120);
+            > .fas {
+                margin-right: 4px;
+            }
+
+            &.positive {
+                transition: all 1s;
+                color: rgb(0, 105, 240);
+            }
+
+            &.negative {
+                transition: all 1s;
+                color: rgb(245, 0, 120);
+            }
         }
-      }
     }
-  }
+}
 </style>

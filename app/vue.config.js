@@ -1,3 +1,3 @@
 module.exports = {
-  assetsDir: 'prod'
+    assetsDir: 'prod'
 };

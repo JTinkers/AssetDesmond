@@ -1,7 +1,7 @@
 import IStockProvider from './services/stocks/interfaces/IStockProvider';
 
 declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $stockProvider: IStockProvider;
-  }
+    interface ComponentCustomProperties {
+        $stockProvider: IStockProvider;
+    }
 }

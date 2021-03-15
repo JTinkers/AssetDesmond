@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, reactive, watch } from 'vue';
 import AppConfig from './AppConfig';
 import IAppConfig from './interfaces/IAppConfig';
 import IDesmond from './interfaces/IDesmond';
@@ -7,9 +7,13 @@ class Desmond implements IDesmond {
     public config?: IAppConfig;
 
     public install(app: App) {
-        this.config = this.initializeConfig();
+        this.config = reactive(this.initializeConfig());
         
         app.config.globalProperties.$desmond = this;
+
+        watch(this.config, (newValue: IAppConfig) => {
+            AppConfig.save(newValue);
+        });
     }
 
     public initializeConfig(): AppConfig {
