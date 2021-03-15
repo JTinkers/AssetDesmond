@@ -43,6 +43,8 @@ class FinnhubStockProvider implements IStockProvider {
             if(info) {
                 stock.price = info.c;
                 stock.openPrice = info.o;
+                
+                stock.prices.push(info.o);
             }
         });
     }
@@ -50,17 +52,20 @@ class FinnhubStockProvider implements IStockProvider {
     public async fetch(symbols: string[]): Promise<IStock[]> {
         if(!this.isSocketOpen) {
             await this.fetchInfo(symbols);
-            this.setupListener(symbols);
+
+            if(!this.config.useRandomizer)
+                this.setupListener(symbols);
         }
 
-        // temporary randomizer
-        setInterval(() => {
-            const change = ((Math.random() * 4) - 2) * 0.01;
-            const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
-    
-            stock.price += stock.price * change;
-            stock.prices.push(stock.price);
-        }, 250);
+        if(this.config.useRandomizer) {
+            setInterval(() => {
+                const change = ((Math.random() * 4) - 2) * 0.01;
+                const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
+        
+                stock.price += stock.price * change;
+                stock.prices.push(stock.price);
+            }, 250);
+        }
 
         return this.stocks;
     }

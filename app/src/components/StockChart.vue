@@ -49,7 +49,7 @@
                     xAxes: [{
                         gridLines: {
                             display: false,
-                            tickMarkLength: 2
+                            tickMarkLength: 0
                         },
                         ticks: {
                             display: false
@@ -58,7 +58,7 @@
                     yAxes: [{
                         gridLines: {
                             display: false,
-                            tickMarkLength: 2
+                            tickMarkLength: 0
                         },
                         ticks: {
                             display: false
@@ -86,7 +86,7 @@
                 const context = (canvas).getContext('2d');
                 const gradient = context?.createLinearGradient(0, 0, 0, this.state.chartObj?.canvas?.height ?? 0);
                 gradient?.addColorStop(0, 'rgba(0, 105, 240, 1)');
-                gradient?.addColorStop(1, 'rgba(128, 255, 227, 1)');
+                gradient?.addColorStop(1, 'rgba(0, 200, 240, 1)');
                 this.chartData.datasets[0].backgroundColor = gradient;
             });
 
