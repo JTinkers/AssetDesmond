@@ -1,7 +1,9 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
-import IStock from '@/services/stocks/interfaces/IStock';
 import { Line } from 'vue3-chart-v2';
+import IStock from '@/services/stocks/interfaces/IStock';
+import IStockHistory from '@/services/stocks/interfaces/IStockHistory';
+import { format } from 'date-fns';
 
 const y = 360;
 
@@ -74,11 +76,18 @@ const component = defineComponent({
         }
     }),
     watch: {
-        'stock.prices': {
-            handler(value: any) {
-                const start = Math.max(value.length - y, 0);
-                this.chartData.datasets[0].data = (value.slice(start, value.length) as number[]).map(x => x.toFixed(2));
-                this.chartData.labels = Array.from({ length: this.chartData.datasets[0].data.length }).map(() => '');
+        'stock.history': {
+            handler(history: Array<IStockHistory>) {
+                const start = Math.max(history.length - y, 0);
+
+                this.chartData.datasets[0].data = history
+                    .slice(start, history.length)
+                    .map(x => x.price.toFixed(2));
+
+                this.chartData.labels = history
+                    .slice(start, history.length)
+                    /*eslint-env node*/
+                    .map(x => format(new Date(x.timestamp), 'HH:mm:ss'));
 
                 this.state.chartObj?.update();
             },

@@ -1,4 +1,5 @@
 import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
+import IStockHistory from '@/services/stocks/interfaces/IStockHistory';
 import IStock from '@/services/stocks/interfaces/IStock';
 import FinnhubStockProviderConfig from './FinnhubStockProviderConfig';
 import FinnhubStock from './FinnhubStock';
@@ -21,7 +22,7 @@ class FinnhubStockProvider implements IStockProvider {
         symbols.forEach(symbol => {
             const stock: FinnhubStock = new FinnhubStock();
             stock.symbol = symbol;
-            stock.prices = Array<number>();
+            stock.history = Array<IStockHistory>();
 
             this.stocks.push(stock);
         });
@@ -65,7 +66,13 @@ class FinnhubStockProvider implements IStockProvider {
                 const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
         
                 stock.price += stock.price * change;
-                stock.prices.push(stock.price);
+
+                const history: IStockHistory = {
+                    price: stock.price,
+                    timestamp: new Date().getTime()
+                };
+
+                stock.history.push(history);
             }, 250);
         }
 
@@ -77,8 +84,7 @@ class FinnhubStockProvider implements IStockProvider {
 
         socket.onopen = () => {
             symbols.forEach(x => {
-                socket.send(JSON.stringify(
-                {
+                socket.send(JSON.stringify({
                     type: 'subscribe',
                     symbol: x
                 }));
@@ -104,8 +110,14 @@ class FinnhubStockProvider implements IStockProvider {
                 if(latest.t < stock.lastRefresh + (this.config.refreshRate || 0))
                     return;
 
+                const history: IStockHistory = {
+                    price: latest.p,
+                    timestamp: latest.t
+                };
+
+                stock.history.push(history);
+
                 stock.price = latest.p;
-                stock.prices.push(latest.p);
                 stock.lastRefresh = latest.t;
             });
         };

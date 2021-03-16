@@ -1,8 +1,10 @@
+import IStockHistory from "./IStockHistory";
+
 interface IStock {
     name: string;
     symbol: string;
     price: number;
-    prices: Array<number>;
+    history: Array<IStockHistory>;
     open: number;
     close: number;
     low: number;
