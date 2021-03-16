@@ -13,7 +13,7 @@ import FinnhubStockProvider from './sources/Finnhub/FinnhubStockProvider';
 import FinnhubStockProviderConfig from './sources/Finnhub/FinnhubStockProviderConfig';
 
 const stockProviderConfig = new FinnhubStockProviderConfig({
-    apiKey: 'c16jign48v6ppg7et00g',
+    apiKey: 'c16jign48v6ppg7et00g', // I don't care enough to hide this ;)
     useRandomizer: false,
     refreshRate: 60 * 1000
 });

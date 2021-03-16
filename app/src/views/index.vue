@@ -45,7 +45,7 @@ export default view;
 #grid {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     padding: 16px;
     align-content: flex-start;
     width: 100vw;

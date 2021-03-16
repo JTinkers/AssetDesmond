@@ -49,6 +49,22 @@ class FinnhubStockProvider implements IStockProvider {
                 stock.close = info.pc;
                 stock.low = info.l;
                 stock.high = info.h;
+
+                let chartPoint: IStockChartPoint;
+                
+                chartPoint = {
+                    x: stock.open,
+                    y: format(new Date().getTime(), 'HH:mm:ss')
+                };
+
+                stock.chartData.push(chartPoint);
+
+                chartPoint = {
+                    x: stock.price,
+                    y: format(new Date().getTime(), 'HH:mm:ss')
+                };
+
+                stock.chartData.push(chartPoint);
             }
         });
     }

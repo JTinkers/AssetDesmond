@@ -5,6 +5,7 @@ class AppConfig implements IAppConfig {
     public theme = Theme.Light;
     public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN'];
     public compact = false;
+    public maxChartYTicks = 120;
 
     public static storageKey = 'desmond:app-config';
 

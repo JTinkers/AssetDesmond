@@ -3,8 +3,7 @@ import { defineComponent } from 'vue';
 import { Line } from 'vue3-chart-v2';
 import IStock from '@/services/stocks/interfaces/IStock';
 import IStockChartPoint from '@/services/stocks/interfaces/IStockChartPoint';
-
-const maxYTicks = 360;
+import IAppConfig from '@/services/desmond/interfaces/IAppConfig';
 
 const component = defineComponent({
     extends: Line,
@@ -18,15 +17,15 @@ const component = defineComponent({
             labels: undefined as any,
             datasets: [{
                 data: undefined as any,
-                lineTension: 1,
+                lineTension: 0,
                 cubicInterpolationMode: 'monotone',
                 backgroundColor: undefined as CanvasGradient | undefined,
-                borderColor: 'rgb(0, 105, 240)',
+                borderColor: '#F55900',
                 borderWidth: 2,
                 pointBorderColor: 'rgb(0, 105, 240)',
                 pointBackgroundColor: 'rgb(0, 105, 240)',
                 pointRadius: 0,
-                pointHitRadius: 2
+                pointHitRadius: 0
             }]
         },
         chartOptions: {
@@ -77,19 +76,27 @@ const component = defineComponent({
     watch: {
         'stock.chartData': {
             handler(chartData: Array<IStockChartPoint>) {
-                const start = Math.max(chartData.length - maxYTicks, 0);
+                const start = Math.max(chartData.length - this.config.maxChartYTicks, 0);
 
-                this.chartData.datasets[0].data = chartData
+                const data = chartData
                     .slice(start, chartData.length)
                     .map(point => point.x.toFixed(2));
 
-                this.chartData.labels = chartData
+                const labels = chartData
                     .slice(start, chartData.length)
                     .map(point => point.y);
+
+                this.chartData.datasets[0].data = data;
+                this.chartData.labels = labels;
 
                 this.state.chartObj?.update();
             },
             deep: true
+        }
+    },
+    computed: {
+        config(): IAppConfig {
+            return this.$desmond.config;
         }
     },
     mounted() {
@@ -98,8 +105,8 @@ const component = defineComponent({
             const context = (canvas).getContext('2d');
 
             const gradient = context?.createLinearGradient(0, 0, 0, this.state.chartObj?.canvas?.height ?? 0);
-            gradient?.addColorStop(0, 'rgba(0, 105, 240, 1)');
-            gradient?.addColorStop(1, 'rgba(0, 200, 240, 1)');
+            gradient?.addColorStop(0, 'rgba(245, 89, 0, 1)');
+            gradient?.addColorStop(1, 'rgba(245, 89, 0, 0.5)');
             
             this.chartData.datasets[0].backgroundColor = gradient;
         });
