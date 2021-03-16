@@ -2,10 +2,9 @@
 import { defineComponent } from 'vue';
 import { Line } from 'vue3-chart-v2';
 import IStock from '@/services/stocks/interfaces/IStock';
-import IStockHistory from '@/services/stocks/interfaces/IStockHistory';
-import { format } from 'date-fns';
+import IStockChartPoint from '@/services/stocks/interfaces/IStockChartPoint';
 
-const y = 360;
+const maxYTicks = 360;
 
 const component = defineComponent({
     extends: Line,
@@ -76,18 +75,17 @@ const component = defineComponent({
         }
     }),
     watch: {
-        'stock.history': {
-            handler(history: Array<IStockHistory>) {
-                const start = Math.max(history.length - y, 0);
+        'stock.chartData': {
+            handler(chartData: Array<IStockChartPoint>) {
+                const start = Math.max(chartData.length - maxYTicks, 0);
 
-                this.chartData.datasets[0].data = history
-                    .slice(start, history.length)
-                    .map(x => x.price.toFixed(2));
+                this.chartData.datasets[0].data = chartData
+                    .slice(start, chartData.length)
+                    .map(point => point.x.toFixed(2));
 
-                this.chartData.labels = history
-                    .slice(start, history.length)
-                    /*eslint-env node*/
-                    .map(x => format(new Date(x.timestamp), 'HH:mm:ss'));
+                this.chartData.labels = chartData
+                    .slice(start, chartData.length)
+                    .map(point => point.y);
 
                 this.state.chartObj?.update();
             },
@@ -98,9 +96,11 @@ const component = defineComponent({
         this.$nextTick(() => {
             const canvas = this.$refs.canvas as HTMLCanvasElement;
             const context = (canvas).getContext('2d');
+
             const gradient = context?.createLinearGradient(0, 0, 0, this.state.chartObj?.canvas?.height ?? 0);
             gradient?.addColorStop(0, 'rgba(0, 105, 240, 1)');
             gradient?.addColorStop(1, 'rgba(0, 200, 240, 1)');
+            
             this.chartData.datasets[0].backgroundColor = gradient;
         });
 

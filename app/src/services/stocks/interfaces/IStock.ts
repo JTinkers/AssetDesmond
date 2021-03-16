@@ -1,10 +1,10 @@
-import IStockHistory from "./IStockHistory";
+import IStockChartPoint from "./IStockChartPoint";
 
 interface IStock {
     name: string;
     symbol: string;
     price: number;
-    history: Array<IStockHistory>;
+    chartData: Array<IStockChartPoint>;
     open: number;
     close: number;
     low: number;

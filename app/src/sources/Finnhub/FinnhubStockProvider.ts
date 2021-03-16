@@ -1,9 +1,10 @@
 import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
-import IStockHistory from '@/services/stocks/interfaces/IStockHistory';
+import IStockChartPoint from '@/services/stocks/interfaces/IStockChartPoint';
 import IStock from '@/services/stocks/interfaces/IStock';
 import FinnhubStockProviderConfig from './FinnhubStockProviderConfig';
 import FinnhubStock from './FinnhubStock';
 import axios from 'axios';
+import { format } from 'date-fns';
 import '@/extensions/Array';
 
 class FinnhubStockProvider implements IStockProvider {
@@ -22,7 +23,7 @@ class FinnhubStockProvider implements IStockProvider {
         symbols.forEach(symbol => {
             const stock: FinnhubStock = new FinnhubStock();
             stock.symbol = symbol;
-            stock.history = Array<IStockHistory>();
+            stock.chartData = Array<IStockChartPoint>();
 
             this.stocks.push(stock);
         });
@@ -67,12 +68,12 @@ class FinnhubStockProvider implements IStockProvider {
         
                 stock.price += stock.price * change;
 
-                const history: IStockHistory = {
-                    price: stock.price,
-                    timestamp: new Date().getTime()
+                const chartPoint: IStockChartPoint = {
+                    x: stock.price,
+                    y: format(new Date().getTime(), 'HH:mm:ss')
                 };
 
-                stock.history.push(history);
+                stock.chartData.push(chartPoint);
             }, 250);
         }
 
@@ -106,16 +107,16 @@ class FinnhubStockProvider implements IStockProvider {
                     return;
 
                 const latest = trades.sort((a, b) => b.t - a.t)[0];
-
+                
                 if(latest.t < stock.lastRefresh + (this.config.refreshRate || 0))
                     return;
 
-                const history: IStockHistory = {
-                    price: latest.p,
-                    timestamp: latest.t
+                const chartPoint: IStockChartPoint = {
+                    x: latest.p,
+                    y: format(new Date(latest.t), 'HH:mm:ss')
                 };
 
-                stock.history.push(history);
+                stock.chartData.push(chartPoint);
 
                 stock.price = latest.p;
                 stock.lastRefresh = latest.t;

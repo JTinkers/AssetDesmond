@@ -1,11 +1,11 @@
 import IStock from '@/services/stocks/interfaces/IStock';
-import IStockHistory from '@/services/stocks/interfaces/IStockHistory';
+import IStockChartPoint from '@/services/stocks/interfaces/IStockChartPoint';
 
 class FinnhubStock implements IStock {
     name = '';
     symbol = '';
     price = 0;
-    history = Array<IStockHistory>();
+    chartData = Array<IStockChartPoint>();
     open = 0;
     close = 0;
     low = 0;
