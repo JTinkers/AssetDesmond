@@ -2,6 +2,7 @@ import IStock from './IStock';
 import IStockProviderConfig from './IStockProviderConfig';
 
 interface IStockProvider {
+    name: string;
     config: IStockProviderConfig;
     stocks: IStock[];
 

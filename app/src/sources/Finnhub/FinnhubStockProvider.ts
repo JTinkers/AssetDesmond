@@ -10,6 +10,7 @@ import '@/extensions/Array';
 class FinnhubStockProvider implements IStockProvider {
     public config: FinnhubStockProviderConfig;
     public stocks: FinnhubStock[];
+    public name = 'FinnhubAPI';
     
     public isSocketOpen = false;
 
@@ -19,7 +20,7 @@ class FinnhubStockProvider implements IStockProvider {
     }
 
     public async fetchInfo(symbols: string[]) {
-        // build list of stocks
+        // build list of stocks, skip existing
         symbols.forEach(symbol => {
             const stock: FinnhubStock = new FinnhubStock();
             stock.symbol = symbol;
@@ -70,12 +71,12 @@ class FinnhubStockProvider implements IStockProvider {
     }
 
     public async fetch(symbols: string[]): Promise<IStock[]> {
-        if(!this.isSocketOpen) {
+        //if(!this.isSocketOpen) {
             await this.fetchInfo(symbols);
 
             if(!this.config.useRandomizer)
                 this.setupListener(symbols);
-        }
+        //}
 
         if(this.config.useRandomizer) {
             setInterval(() => {

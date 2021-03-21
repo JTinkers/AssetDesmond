@@ -1,11 +1,14 @@
 <template>
-    <div id='grid' :class='{ compact: config.compact }'>
-        <component :is='stockComponent' v-for='stock in stocks' :key='stock.symbol' :stock ='stock'/>
+    <div v-show='!config.compact' id='grid' :class='{ compact: config.compact }'>
+        <Stock v-for='stock in stocks' :key='stock.symbol' :stock ='stock'/>
+    </div>
+    <div v-show='config.compact' id='grid' :class='{ compact: config.compact }'>
+        <StockCompact v-for='stock in stocks' :key='stock.symbol' :stock ='stock'/>
     </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance } from 'vue';
+import { defineComponent, getCurrentInstance, reactive } from 'vue';
 import IStock from '@/services/stocks/interfaces/IStock';
 import IStockProvider from '@/services/stocks/interfaces/IStockProvider';
 import Stock from '@/components/Stock.vue';
@@ -19,22 +22,15 @@ const view = defineComponent({
         const instance = getCurrentInstance();
         const provider: IStockProvider = instance?.appContext.config.globalProperties.$stockProvider;
         const desmond: IDesmond = instance?.appContext.config.globalProperties.$desmond;
+        const config: IAppConfig | undefined = desmond.config;
+        const stocks: IStock[] = reactive(provider.stocks);
 
         return {
             desmond,
-            provider
+            provider,
+            config,
+            stocks
         };
-    },
-    computed: {
-        config(): IAppConfig {
-            return this.$desmond.config;
-        },
-        stockComponent(): any {
-            return this.config.compact ? StockCompact : Stock;
-        },
-        stocks(): IStock[] {
-            return this.provider.stocks;
-        }
     }
 });
 
@@ -45,16 +41,15 @@ export default view;
 #grid {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    align-items: flex-start;
     padding: 16px;
-    align-content: flex-start;
     width: 100vw;
-    background: rgb(224, 227, 235);
 
     &.compact {
-        grid-gap: 1px;
-        padding: 0;
+        grid-gap: 8px;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        padding: 8px;
     }
 }
 </style>

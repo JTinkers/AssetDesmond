@@ -5,6 +5,7 @@ import IDesmond from './interfaces/IDesmond';
 
 class Desmond implements IDesmond {
     public config?: IAppConfig;
+    public initializeTimestamp = new Date().getTime();
 
     public install(app: App) {
         this.config = reactive(this.initializeConfig());

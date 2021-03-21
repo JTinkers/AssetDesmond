@@ -4,7 +4,7 @@
             <span class='symbol' v-text='symbol'/>
             <span class='price' v-text='"$" + price.toFixed(2)'/>
         </div>
-        <div class='info'>
+        <div class='footer'>
             <span class='name' v-text='name'/>
             <div class='change' :class='className'>
                 <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
@@ -27,44 +27,20 @@ const component = defineComponent({
 export default component;
 </script>
 
-<style lang='scss'>
-    @keyframes flash-positive {  
-        from { background: rgba(0, 105, 240, 0.25); }
-        to { background: default; }
-    }
-
-    @keyframes flash-negative {  
-        from { background: rgba(245, 0, 120, 0.25); }
-        to { background: default; }
-    } 
-</style>
-
-
 <style lang='scss' scoped>
 .stock {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
-    background: rgb(255, 255, 255);
+    background: white;
+    border-radius: 5px;
     padding: 8px;
-
-    &.positive {
-        animation: flash-positive 1s linear;
-    }
-
-    &.negative {
-        animation: flash-negative 1s linear;
-    }
 
     .header {
         display: flex;
 
-        .symbol, .price {
-            font-size: 32px;
-        }
-
         .symbol {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 20px;
             margin-left: -1px;
         }
 
@@ -73,21 +49,17 @@ export default component;
         }
     }
 
-    .info {
+    .footer {
         display: flex;
         padding-top: 4px;
+        align-items: flex-end;
 
         .name {
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .change {
             margin-left: auto;
-            font-weight: 600;
-
-            > .fas {
-                margin-right: 4px;
-            }
 
             &.positive {
                 transition: all 1s;
@@ -97,6 +69,10 @@ export default component;
             &.negative {
                 transition: all 1s;
                 color: rgb(245, 0, 120);
+            }
+
+            .fas {
+                margin-right: 4px;
             }
         }
     }

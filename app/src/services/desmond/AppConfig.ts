@@ -3,7 +3,7 @@ import IAppConfig from './interfaces/IAppConfig';
 
 class AppConfig implements IAppConfig {
     public theme = Theme.Light;
-    public symbols = ['TSLA', 'MSFT', 'AAPL', 'NIO', 'UXIN'];
+    public symbols = ['TSLA', 'MSFT', 'AAPL', 'IBM'];
     public compact = false;
     public maxChartYTicks = 120;
 
@@ -23,6 +23,9 @@ class AppConfig implements IAppConfig {
     }
 
     public addSymbol(symbol: string): void {
+        if(!symbol.length)
+            return;
+
         const symbols = this.symbols;
         const stored = symbols?.find(x => x == symbol);
 

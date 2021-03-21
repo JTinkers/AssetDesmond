@@ -19,8 +19,8 @@ const component = defineComponent({
                 data: undefined as any,
                 lineTension: 0,
                 cubicInterpolationMode: 'monotone',
-                backgroundColor: undefined as CanvasGradient | undefined,
-                borderColor: '#F55900',
+                backgroundColor: 'rgb(255, 102, 25)',
+                borderColor: 'rgb(255, 102, 25)',
                 borderWidth: 2,
                 pointBorderColor: 'rgb(0, 105, 240)',
                 pointBackgroundColor: 'rgb(0, 105, 240)',
@@ -100,17 +100,6 @@ const component = defineComponent({
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            const canvas = this.$refs.canvas as HTMLCanvasElement;
-            const context = (canvas).getContext('2d');
-
-            const gradient = context?.createLinearGradient(0, 0, 0, this.state.chartObj?.canvas?.height ?? 0);
-            gradient?.addColorStop(0, 'rgba(245, 89, 0, 1)');
-            gradient?.addColorStop(1, 'rgba(245, 89, 0, 0.5)');
-            
-            this.chartData.datasets[0].backgroundColor = gradient;
-        });
-
         this.renderChart(this.chartData, this.chartOptions);
     }
 });

@@ -1,26 +1,22 @@
 <template>
-    <Card class='stock'>
-        <template #title>
+    <div class='stock'>
+        <div class='header'>
             <span class='symbol' v-text='symbol'/>
-        </template>
-        <template #subtitle>
             <span class='name' v-text='name'/>
-        </template>
-        <template #content>
+        </div>
+        <div class='body'>
             <div class='chart'>
                 <StockChart :stock='stock'/>
             </div>
-        </template>
-        <template #footer>
-            <div class='info'>
-                <span class='price' v-text='"$" + price.toFixed(2)' v-tooltip='priceTooltip'/>
-                <div class='change' :class='className'>
-                    <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
-                    <span v-text='Math.abs(change).toFixed(2) + ` (${((Math.abs(changePerc) || 0).toFixed(2))}%)`'/>
-                </div>
+        </div>
+        <div class='footer'>
+            <span v-text='"$" + price.toFixed(2)'/>
+            <div class='change' :class='className'>
+                <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
+                <span v-text='Math.abs(change).toFixed(2) + ` (${((Math.abs(changePerc) || 0).toFixed(2))}%)`'/>
             </div>
-        </template>
-    </Card>
+        </div>
+    </div>
 </template>
 
 <script lang='ts'>
@@ -38,15 +34,6 @@ const component = defineComponent({
     props: {
         stock: {
             type: Object as () => IStock
-        }
-    },
-    computed: {
-        priceTooltip(): string {
-            return `Open: $${this.stock?.open}
-                Previous Close: $${this.stock?.close}
-
-                Lowest: $${this.stock?.low}
-                Highest: $${this.stock?.high}`;
         }
     },
     watch: {
@@ -67,34 +54,40 @@ const component = defineComponent({
 export default component;
 </script>
 
-<style lang='scss'>
-    @keyframes flash-positive {  
-        from { background: rgba(0, 105, 240, 0.25); }
-        to { background: default; }
-    }
-
-    @keyframes flash-negative {  
-        from { background: rgba(245, 0, 120, 0.25); }
-        to { background: default; }
-    } 
-</style>
-
 <style lang='scss' scoped>
-    ::v-deep(.p-card-content) {
-        padding: 0;
-    }
+.stock {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: white;
+    border-radius: 5px;
 
-    ::v-deep(.p-card-body) {
-        font-family: 'Quicksand', sans-serif;
-    }
-
-    .chart {
-        background: rgb(250, 250, 255);
-    }
-
-    .info {
+    .header {
         display: flex;
-        font-weight: 600;
+        flex-direction: column;
+
+        .symbol {
+            font-weight: 700;
+            font-size: 28px;
+            margin-left: -1px;
+        }
+
+        .name {
+            padding: 8px 0;
+            font-size: 13px;
+        }
+    }
+
+    .body {
+        .chart {
+            background: rgb(245, 245, 250);
+        }
+    }
+
+    .footer {
+        display: flex;
+        padding-top: 16px;
+        font-weight: 700;
 
         .change {
             margin-left: auto;
@@ -114,4 +107,5 @@ export default component;
             }
         }
     }
+}
 </style>
