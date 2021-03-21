@@ -1,8 +1,6 @@
-import Theme from './enums/Theme';
 import IAppConfig from './interfaces/IAppConfig';
 
 class AppConfig implements IAppConfig {
-    public theme = Theme.Light;
     public symbols = ['TSLA', 'MSFT', 'AAPL', 'IBM'];
     public compact = false;
     public maxChartYTicks = 120;

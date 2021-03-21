@@ -71,12 +71,12 @@ class FinnhubStockProvider implements IStockProvider {
     }
 
     public async fetch(symbols: string[]): Promise<IStock[]> {
-        //if(!this.isSocketOpen) {
+        if(!this.isSocketOpen) {
             await this.fetchInfo(symbols);
 
             if(!this.config.useRandomizer)
                 this.setupListener(symbols);
-        //}
+        }
 
         if(this.config.useRandomizer) {
             setInterval(() => {
