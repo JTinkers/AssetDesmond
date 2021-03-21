@@ -34,6 +34,7 @@ export default component;
     background: white;
     border-radius: 5px;
     padding: 8px;
+    border-bottom: 2px solid rgb(230, 230, 240);
 
     .header {
         display: flex;
