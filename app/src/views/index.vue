@@ -48,7 +48,7 @@ export default view;
 
     &.compact {
         grid-gap: 8px;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
         padding: 8px;
     }
 }

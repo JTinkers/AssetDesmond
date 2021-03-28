@@ -14,8 +14,20 @@
             </div>
         </div>
         <div class='footer'>
-            <span class='name' v-text='name'/>
-            <span class='value' v-text='"$" + price.toFixed(2)'/>
+            <div class='info'>
+                <span class='name' v-text='name'/>
+                <span class='value' v-text='"$" + price.toFixed(2)'/>
+            </div>
+            <div class='stats'>
+                <span v-text='"Open: "'/>
+                <span v-text='"$" + open' class='value'/>
+                <span v-text='"Close: "'/>
+                <span v-text='"$" + close' class='value'/>
+                <span v-text='"Low: "'/>
+                <span v-text='"$" + low' class='value'/>
+                <span v-text='"High: "'/>
+                <span v-text='"$" + high' class='value'/>
+            </div>
         </div>
     </div>
 </template>
@@ -61,7 +73,7 @@ export default component;
     flex-direction: column;
     background: white;
     border-radius: 5px;
-    box-shadow: 0px 4px 5px 0px darken(rgb(242, 242, 247), 5%);
+    border-bottom: 2px solid darken(rgb(242, 242, 247), 5%);
 
     .header {
         display: flex;
@@ -76,8 +88,13 @@ export default component;
             image-rendering: pixelated;
         }
 
+        .symbol {
+            font-weight: 700;
+        }
+
         .change {
             margin-left: auto;
+            align-self: flex-start;
 
             &.positive {
                 transition: all 1s;
@@ -103,12 +120,29 @@ export default component;
 
     .footer {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         padding: 16px;
         font-size: 13px;
 
-        .value {
-            margin-left: auto;
+        .info {
+            display: flex;
+            font-weight: 700;
+
+            .value {
+                margin-left: auto;
+            }
+        }
+
+        .stats {
+            display: grid;
+            grid-column-gap: 32px;
+            grid-row-gap: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            margin-top: 8px;
+
+            .value {
+                margin-left: auto;
+            }
         }
     }
 }

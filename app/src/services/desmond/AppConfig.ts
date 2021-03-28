@@ -3,6 +3,7 @@ import IAppConfig from './interfaces/IAppConfig';
 class AppConfig implements IAppConfig {
     public symbols = ['TSLA', 'MSFT', 'AAPL', 'IBM'];
     public compact = false;
+    public darkMode = false;
     public maxChartYTicks = 120;
 
     public static storageKey = 'desmond:app-config';

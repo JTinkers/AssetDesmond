@@ -19,11 +19,11 @@ const component = defineComponent({
                 data: undefined as any,
                 lineTension: 0,
                 cubicInterpolationMode: 'monotone',
-                backgroundColor: 'rgba(0, 105, 240, 0.2)',
-                borderColor: 'rgb(0, 105, 240)',
+                backgroundColor: 'rgba(232, 112, 9, 0.2)',
+                borderColor: 'rgb(232, 112, 9)',
                 borderWidth: 2,
-                pointBorderColor: 'rgb(0, 105, 240)',
-                pointBackgroundColor: 'rgb(0, 105, 240)',
+                pointBorderColor: 'rgb(232, 112, 9)',
+                pointBackgroundColor: 'rgb(232, 112, 9)',
                 pointRadius: 0,
                 pointHitRadius: 0
             }]

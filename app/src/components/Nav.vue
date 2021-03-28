@@ -19,6 +19,7 @@
         </div>
         <div id='switches'>
             <i class='switch fas fa-grip-horizontal' @click='changeCompact'/>
+            <i class='switch fas fa-adjust' @click='changeDarkMode'/>
         </div>
     </div>
 </template>
@@ -70,6 +71,9 @@ export default defineComponent({
         },
         changeCompact() {
             this.config!.compact = !this.config?.compact;
+        },
+        changeDarkMode() {
+            this.config!.darkMode = !this.config?.darkMode;
         }
     },
     computed: {

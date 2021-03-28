@@ -1,0 +1,54 @@
+// I know this can be done better with scss variables :P
+
+& {
+    background: rgb(46, 46, 61);
+}
+
+#grid {
+    .stock {
+        background: #414157;
+        color: white;
+    }
+
+    &:not(.compact) {
+        .stock {
+            border-bottom: 2px solid lighten(#414157, 5%);
+
+            .header {
+                .change {
+                    &.positive {
+                        color: #00FFB4;
+                    }
+
+                    &.negative {
+                        color: #FF3443;
+                    }
+                }
+            }
+
+            .body {
+                .chart {
+                    background: #50506B;
+                }
+            }
+        }
+    }
+
+    &.compact {
+        .stock {
+            border-bottom: 2px solid #50506B;
+
+            .right {
+                .change {
+                    &.positive {
+                        color: #00FFB4;
+                    }
+
+                    &.negative {
+                        color: #FF3443;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -36,21 +36,22 @@ export default component;
     background: white;
     border-radius: 5px;
     padding: 8px;
-    border-bottom: 2px solid rgb(230, 230, 240);
+    border-bottom: 2px solid darken(rgb(242, 242, 247), 5%);
+    font-size: 32px;
 
     .left {
         display: flex;
         align-items: center;
 
-        .logo {
-            width: 20px;
-            height: 20px;
-            margin-right: 4px;
-            image-rendering: pixelated;
+        .symbol {
+            font-weight: 700;
         }
 
-        .symbol {
-            font-size: 16px;
+        .logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            image-rendering: pixelated;
         }
     }
 
