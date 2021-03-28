@@ -1,4 +1,8 @@
 # AssetDesmond
 A highly configurable stock ticker.
 
-![](https://i.imgur.com/reSYEOw.png)
+## Detailed view in dark mode
+![](https://github.com/JTinkers/AssetDesmond/blob/main/showcase_1.png)
+
+## Compact view in light mode
+![](https://github.com/JTinkers/AssetDesmond/blob/main/showcase_2.png)
