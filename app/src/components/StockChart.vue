@@ -19,8 +19,8 @@ const component = defineComponent({
                 data: undefined as any,
                 lineTension: 0,
                 cubicInterpolationMode: 'monotone',
-                backgroundColor: 'rgb(255, 102, 25)',
-                borderColor: 'rgb(255, 102, 25)',
+                backgroundColor: 'rgba(0, 105, 240, 0.2)',
+                borderColor: 'rgb(0, 105, 240)',
                 borderWidth: 2,
                 pointBorderColor: 'rgb(0, 105, 240)',
                 pointBackgroundColor: 'rgb(0, 105, 240)',
@@ -29,9 +29,6 @@ const component = defineComponent({
             }]
         },
         chartOptions: {
-            animation: {
-                duration: 1000
-            },
             tooltips: {
                 mode: 'index',
                 intersect: false,

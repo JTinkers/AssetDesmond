@@ -2,7 +2,10 @@
     <div class='stock'>
         <div class='header'>
             <span class='symbol' v-text='symbol'/>
-            <span class='name' v-text='name'/>
+            <div class='change' :class='className'>
+                <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
+                <span v-text='Math.abs(change).toFixed(2) + ` (${((Math.abs(changePerc) || 0).toFixed(2))}%)`'/>
+            </div>
         </div>
         <div class='body'>
             <div class='chart'>
@@ -10,11 +13,8 @@
             </div>
         </div>
         <div class='footer'>
-            <span v-text='"$" + price.toFixed(2)'/>
-            <div class='change' :class='className'>
-                <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
-                <span v-text='Math.abs(change).toFixed(2) + ` (${((Math.abs(changePerc) || 0).toFixed(2))}%)`'/>
-            </div>
+            <span class='name' v-text='name'/>
+            <span class='value' v-text='"$" + price.toFixed(2)'/>
         </div>
     </div>
 </template>
@@ -58,35 +58,15 @@ export default component;
 .stock {
     display: flex;
     flex-direction: column;
-    padding: 16px;
     background: white;
     border-radius: 5px;
+    box-shadow: 0px 4px 5px 0px darken(rgb(242, 242, 247), 5%);
 
     .header {
         display: flex;
-        flex-direction: column;
-
-        .symbol {
-            font-weight: 700;
-            font-size: 28px;
-            margin-left: -1px;
-        }
-
-        .name {
-            padding: 8px 0;
-            font-size: 13px;
-        }
-    }
-
-    .body {
-        .chart {
-            background: rgb(245, 245, 250);
-        }
-    }
-
-    .footer {
-        display: flex;
-        padding-top: 16px;
+        align-items: center;
+        padding: 16px;
+        font-size: 20px;
         font-weight: 700;
 
         .change {
@@ -105,6 +85,23 @@ export default component;
             .fas {
                 margin-right: 4px;
             }
+        }
+    }
+
+    .body {
+        .chart {
+            background: rgb(245, 245, 250);
+        }
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        font-size: 13px;
+
+        .value {
+            margin-left: auto;
         }
     }
 }

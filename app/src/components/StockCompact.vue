@@ -1,15 +1,15 @@
 <template>
     <div class='stock' :class='className'>
         <div class='header'>
-            <span class='symbol' v-text='symbol'/>
-            <span class='price' v-text='"$" + price.toFixed(2)'/>
-        </div>
-        <div class='footer'>
-            <span class='name' v-text='name'/>
+            <span class='symbol' v-text='symbol'/>      
             <div class='change' :class='className'>
                 <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
                 <span v-text='`${((Math.abs(changePerc) || 0).toFixed(2))}%`'/>
             </div>
+        </div>
+        <div class='footer'>
+            <span class='name' v-text='name'/>
+            <span class='price' v-text='"$" + price.toFixed(2)'/>
         </div>
     </div>
 </template>
@@ -38,25 +38,11 @@ export default component;
 
     .header {
         display: flex;
+        font-weight: 700;
 
         .symbol {
-            font-weight: 700;
             font-size: 20px;
             margin-left: -1px;
-        }
-
-        .price {
-            margin-left: auto;
-        }
-    }
-
-    .footer {
-        display: flex;
-        padding-top: 4px;
-        align-items: flex-end;
-
-        .name {
-            font-size: 13px;
         }
 
         .change {
@@ -75,6 +61,17 @@ export default component;
             .fas {
                 margin-right: 4px;
             }
+        }
+    }
+
+    .footer {
+        display: flex;
+        padding-top: 4px;
+        align-items: flex-end;
+        font-size: 16px;
+
+        .price {
+            margin-left: auto;
         }
     }
 }
