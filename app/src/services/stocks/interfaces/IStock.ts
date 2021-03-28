@@ -9,6 +9,7 @@ interface IStock {
     close: number;
     low: number;
     high: number;
+    logoSrc?: string;
 }
 
 export default IStock;

@@ -40,15 +40,15 @@ export default view;
 <style lang='scss' scoped>
 #grid {
     display: grid;
-    grid-gap: 16px;
+    grid-gap: 8px;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     align-items: flex-start;
-    padding: 16px;
+    padding: 8px;
     width: 100vw;
 
     &.compact {
         grid-gap: 8px;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         padding: 8px;
     }
 }

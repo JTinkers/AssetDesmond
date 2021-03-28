@@ -1,6 +1,7 @@
 <template>
     <div class='stock'>
         <div class='header'>
+            <img v-if='logoSrc' class='logo' :src='logoSrc'/>
             <span class='symbol' v-text='symbol'/>
             <div class='change' :class='className'>
                 <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
@@ -66,8 +67,14 @@ export default component;
         display: flex;
         align-items: center;
         padding: 16px;
-        font-size: 20px;
-        font-weight: 700;
+        font-size: 16px;
+
+        .logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+            image-rendering: pixelated;
+        }
 
         .change {
             margin-left: auto;

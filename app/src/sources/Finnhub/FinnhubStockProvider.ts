@@ -68,6 +68,11 @@ class FinnhubStockProvider implements IStockProvider {
                 stock.chartData.push(chartPoint);
             }
         });
+
+        // fetch logo for each stock
+        this.stocks.forEach(async stock => {
+            stock.logoSrc = `https://finnhub.io/api/logo?symbol=${stock.symbol}`;
+        });
     }
 
     public async fetch(symbols: string[]): Promise<IStock[]> {

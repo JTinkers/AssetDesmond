@@ -1,15 +1,17 @@
 <template>
     <div class='stock' :class='className'>
-        <div class='header'>
+        <div class='left'>
+            <img v-if='logoSrc' class='logo' :src='logoSrc'/>
             <span class='symbol' v-text='symbol'/>      
+        </div>
+        <div class='middle'>
+            <span class='price' v-text='"$" + price.toFixed(2)'/>
+        </div>
+        <div class='right' :class='className'>
             <div class='change' :class='className'>
                 <span class='fas' :class='{ "fa-caret-up": changePerc > 0, "fa-caret-down": changePerc < 0 }'/>
                 <span v-text='`${((Math.abs(changePerc) || 0).toFixed(2))}%`'/>
             </div>
-        </div>
-        <div class='footer'>
-            <span class='name' v-text='name'/>
-            <span class='price' v-text='"$" + price.toFixed(2)'/>
         </div>
     </div>
 </template>
@@ -29,21 +31,39 @@ export default component;
 
 <style lang='scss' scoped>
 .stock {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     background: white;
     border-radius: 5px;
     padding: 8px;
     border-bottom: 2px solid rgb(230, 230, 240);
 
-    .header {
+    .left {
         display: flex;
-        font-weight: 700;
+        align-items: center;
+
+        .logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+            image-rendering: pixelated;
+        }
 
         .symbol {
-            font-size: 20px;
-            margin-left: -1px;
+            font-size: 16px;
         }
+    }
+
+    .middle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
 
         .change {
             margin-left: auto;
@@ -61,17 +81,6 @@ export default component;
             .fas {
                 margin-right: 4px;
             }
-        }
-    }
-
-    .footer {
-        display: flex;
-        padding-top: 4px;
-        align-items: flex-end;
-        font-size: 16px;
-
-        .price {
-            margin-left: auto;
         }
     }
 }

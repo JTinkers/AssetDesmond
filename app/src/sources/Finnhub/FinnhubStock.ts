@@ -11,6 +11,7 @@ class FinnhubStock implements IStock {
     low = 0;
     high = 0;
     lastRefresh = 0;
+    logoSrc? = '';
 }
 
 export default FinnhubStock;
