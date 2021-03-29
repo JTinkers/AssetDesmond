@@ -9,17 +9,20 @@ import App from './App.vue';
 
 import FinnhubStockProvider from './sources/Finnhub/FinnhubStockProvider';
 
-import * as config from '../public/finnhub.config.json';
+async function setup() {
+    const config = (await (await fetch('/finnhub.config.json')).json());
+    const stockProvider = reactive(new FinnhubStockProvider(config));
 
-const stockProvider = reactive(new FinnhubStockProvider(config));
+    const instance = createApp(App)
+        .use(store)
+        .use(router)
+        .use(VueAxios, axios)
+        .use(desmond)
+        .use(stocks, stockProvider)
+        .mount('#app');
+    
+    // run stock fetching
+    instance.$stockProvider.fetch(instance.$desmond.config.symbols);
+}
 
-const instance = createApp(App)
-    .use(store)
-    .use(router)
-    .use(VueAxios, axios)
-    .use(desmond)
-    .use(stocks, stockProvider)
-    .mount('#app');
-
-// run stock fetching
-instance.$stockProvider.fetch(instance.$desmond.config.symbols);
+setup();
