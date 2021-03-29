@@ -7,22 +7,13 @@ import desmond from './services/desmond';
 import stocks from './services/stocks';
 import App from './App.vue';
 
-// #region configuration
 import FinnhubStockProvider from './sources/Finnhub/FinnhubStockProvider';
-import FinnhubStockProviderConfig from './sources/Finnhub/FinnhubStockProviderConfig';
 
-const stockProviderConfig = new FinnhubStockProviderConfig({
-    apiKey: '',
-    useRandomizer: true,
-    refreshRate: 60 * 1000
-});
+import * as config from '../public/finnhub.config.json';
 
-const stockProvider = reactive(new FinnhubStockProvider(stockProviderConfig));
-// #endregion
+const stockProvider = reactive(new FinnhubStockProvider(config));
 
-const app = createApp(App);
-
-const instance = app
+const instance = createApp(App)
     .use(store)
     .use(router)
     .use(VueAxios, axios)
