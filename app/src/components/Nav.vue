@@ -56,8 +56,6 @@ export default defineComponent({
             const symbol = window.prompt('Enter symbol:');
 
             this.config?.addSymbol(symbol!);
-
-            location.reload();
         },
         removeSymbol(symbol: string) {
             const confirmed = window.confirm('Remove ' + symbol + ' from the list?');
@@ -66,8 +64,6 @@ export default defineComponent({
                 return;
 
             this.config?.removeSymbol(symbol);
-
-            location.reload();
         },
         changeCompact() {
             this.config!.compact = !this.config?.compact;
