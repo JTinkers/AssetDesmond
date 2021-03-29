@@ -1,13 +1,42 @@
 # prep
-mkdir deploy
+Remove-Item -Path "deployment/" -Recurse -ErrorAction "SilentlyContinue"
 
-# build front
-cd app
-vue-cli-service build --target app
+New-Item -ItemType "directory" -Path "deployment"
 
-$moveParams = @{
-    Path = "./dist"
-    Destination = "../deployment"
+# build server
+cd server
+dotnet publish -c Release -p:PublishSingleFile=true --self-contained true -r win-x64
+
+$copyParams = @{
+    Path = "./bin/Release/net5.0/win-x64/publish/*"
+    Destination = "../deployment/"
+    Force = $true
+    Recurse = $true
+    PassThru = $true
 }
 
-Move-File $moveParams
+Copy-Item @copyParams
+
+cd ..
+
+# build app
+cd app
+npm run build
+
+$copyParams = @{
+    Path = "./dist/*"
+    Destination = "../deployment/app/"
+    Force = $true
+    Recurse = $true
+    PassThru = $true
+}
+
+Copy-Item @copyParams
+
+# finish
+cd ../deployment
+
+New-Item -Path "finnhub.config.json" -ItemType SymbolicLink -Value "app/finnhub.config.json"
+Rename-Item -Path "AssetDesmondServer.exe" -NewName "run.exe"
+
+cd ..

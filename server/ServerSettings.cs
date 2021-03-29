@@ -2,6 +2,6 @@
 {
     public class ServerSettings
     {
-        public string AppPath { get; set; } = "/app/dist";
+        public string AppPath { get; set; } = "/app";
     }
 }
