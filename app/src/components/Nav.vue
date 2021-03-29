@@ -36,7 +36,6 @@ export default defineComponent({
         const desmond: IDesmond = instance?.appContext.config.globalProperties.$desmond;
         const config: IAppConfig | undefined = desmond.config;
         const provider: IStockProvider = instance?.appContext.config.globalProperties.$stockProvider;
-        const symbols: string[] | undefined = config?.symbols;
 
         const currentTime = ref(new Date());
         setInterval(() => {
@@ -47,8 +46,7 @@ export default defineComponent({
             desmond,
             config,
             currentTime,
-            provider,
-            symbols
+            provider
         };
     },
     methods: {
@@ -73,6 +71,9 @@ export default defineComponent({
         }
     },
     computed: {
+        symbols(): string[] {
+            return this.config!.symbols;
+        },
         uptime(): string {
             const diff = this.currentTime.getTime() - this.desmond.initializeTimestamp;
 

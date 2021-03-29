@@ -36,11 +36,10 @@ class AppConfig implements IAppConfig {
     }
 
     public removeSymbol(symbol: string): void {
-        const symbols = this.symbols;
-        const index = symbols?.indexOf(symbol);
+        const index = this.symbols?.indexOf(symbol);
 
-        if(index) {
-            symbols?.splice(index, 1);
+        if(index != -1) {
+            this.symbols = this.symbols.remove(symbol);
 
             AppConfig.save(this);
         }
