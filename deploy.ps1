@@ -1,42 +1,67 @@
-# prep
-Remove-Item -Path "deployment/" -Recurse -ErrorAction "SilentlyContinue"
+# prepare deployment destination
+Remove-Item -Path ./deployment -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Path ./deployment
 
-New-Item -ItemType "directory" -Path "deployment"
+$versions = "win-x64","linux-x64","linux-arm","linux-arm64"
 
-# build server
-cd server
-dotnet publish -c Release -p:PublishSingleFile=true --self-contained true -r win-x64
-
-$copyParams = @{
-    Path = "./bin/Release/net5.0/win-x64/publish/*"
-    Destination = "../deployment/"
-    Force = $true
-    Recurse = $true
-    PassThru = $true
+For ($i = 0; $i -lt $versions.length; $i++)
+{
+    New-Item -ItemType Directory -Path "./deployment/$($versions[$i])"
 }
 
-Copy-Item @copyParams
+# build
 
-cd ..
-
-# build app
+## build app
 cd app
 npm run build
+cd ..
 
-$copyParams = @{
-    Path = "./dist/*"
-    Destination = "../deployment/app/"
-    Force = $true
-    Recurse = $true
-    PassThru = $true
+## build server
+cd server
+
+For ($i = 0; $i -lt $versions.length; $i++)
+{
+    dotnet publish -c Release -p:PublishSingleFile=true --self-contained true -r $versions[$i]
 }
 
-Copy-Item @copyParams
-
-# finish
-cd ../deployment
-
-New-Item -Path "finnhub.config.json" -ItemType SymbolicLink -Value "app/finnhub.config.json"
-Rename-Item -Path "AssetDesmondServer.exe" -NewName "run.exe"
-
 cd ..
+
+# copy
+
+## copy server
+For ($i = 0; $i -lt $versions.length; $i++)
+{
+    $copy = @{
+        Path = "./server/bin/Release/net5.0/$($versions[$i])/publish/*"
+        Destination = "./deployment/$($versions[$i])"
+        Force = $true
+        Recurse = $true
+        PassThru = $true
+    }
+
+    Copy-Item @copy
+}
+
+## copy app
+For ($i = 0; $i -lt $versions.length; $i++)
+{
+    $path = "./deployment/$($versions[$i])"
+    $copy = @{
+        Path = "./app/dist/*"
+        Destination = "$($path)/app"
+        Force = $true
+        Recurse = $true
+        PassThru = $true
+    }
+
+    Copy-Item @copy
+    New-Item -Path "$($path)/finnhub.config.json" -ItemType SymbolicLink -Value "$($path)/app/finnhub.config.json"
+}
+
+## create archives
+For ($i = 0; $i -lt $versions.length; $i++)
+{
+    $path = "./deployment/$($versions[$i])"
+
+    Compress-Archive -Path "$($path)/*" -DestinationPath "./deployment/assetdesmond-$($versions[$i]).zip" -CompressionLevel Optimal
+}
