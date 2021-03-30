@@ -6,7 +6,8 @@ A highly configurable stock ticker.
 2. Go to [finnhub.io](https://finnhub.io/) and sign up.
 3. Go to [dashboard](https://finnhub.io/dashboard) and generate an API key.
 4. Open `finnhub.config.json` and paste the API key.
-5.
+5. To run:
+    
     5.1 **Windows**: Run AssetDesmondServer.exe
 
     5.2 **Linux**: Run the following commands:
