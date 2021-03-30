@@ -8,7 +8,9 @@ A highly configurable stock ticker.
 4. Open `finnhub.config.json` and paste the API key.
 5.
     5.1 **Windows**: Run AssetDesmondServer.exe
+
     5.2 **Linux**: Run the following commands:
+
     ```bash
     chmod +x AssetDesmondServer
     ./AssetDesmondServer
